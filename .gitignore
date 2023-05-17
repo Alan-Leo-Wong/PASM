@@ -374,3 +374,5 @@ model/
 !model/bunny.off
 
 *.xyz
+
+*.dll
