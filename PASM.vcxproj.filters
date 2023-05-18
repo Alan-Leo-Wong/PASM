@@ -21,9 +21,24 @@
     <ClCompile Include="BaseModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleMesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseModel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="KNNHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FCPWHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleMesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CGALTest.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

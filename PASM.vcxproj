@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -126,6 +126,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(Boost_INCLUDE_DIR);E:\3rdParty\CGAL-5.5.1\include;E:\3rdParty\CGAL-5.5.1\auxiliary\gmp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,9 +140,19 @@
   <ItemGroup>
     <ClCompile Include="BaseModel.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseModel.h" />
+    <ClInclude Include="CGALTest.h" />
+    <ClInclude Include="FCPWHelper.h" />
+    <ClInclude Include="KNNHelper.h" />
+    <ClInclude Include="ParticleMesh.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PQP\PQP.vcxproj">
+      <Project>{64596d75-2cb7-4370-8ca4-d1a380e5845f}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
