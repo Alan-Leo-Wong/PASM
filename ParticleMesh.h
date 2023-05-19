@@ -12,16 +12,22 @@ private:
 	Eigen::MatrixXd particleArray;
 
 public:
-	ParticalMesh(const double& _c_ctheta, const std::string& filename) : c_theta(_c_ctheta), BaseModel(filename)
+	ParticalMesh(const std::string& filename) : BaseModel(filename)
 	{
 		embedOmiga = totalArea;
 		theta = c_theta * std::sqrt(embedOmiga / m_V.rows());
-		numParticles = m_V.rows();
-		particleArray.resize(numParticles, 3);
+		numParticles = m_V.rows(); // for simplicity
+		particleArray = m_V;
 	}
 
-	void launchApp(const int& iterations, const int& numSearch);
+	ParticalMesh(const std::string& filename, const double& _c_theta) : ParticalMesh(filename)
+	{
+		c_theta = _c_theta;
+		theta = c_theta * std::sqrt(embedOmiga / m_V.rows());
+	}
+
+	void launchApp(const int& maxIterations, const int& numSearch, const std::string& out_file = "");
 
 private:
-	void lbfgs_optimization(const int& iterations, const int& numSearch);
+	void lbfgs_optimization(const int& maxIterations, const int& numSearch, const std::string& out_file);
 };

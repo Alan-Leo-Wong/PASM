@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
-#include "BaseModel.h"
 #include "KNNHelper.h"
+#include "ParticleMesh.h"
 
 void outFile(const Eigen::MatrixXd& queryPointMat, const Eigen::MatrixXd& resPointMat)
 {
@@ -44,7 +44,8 @@ void testPointNormal()
 
 int main()
 {
-	BaseModel model("./model/bunny.off");
+	ParticalMesh pm("./model/bunny.off");
+	pm.launchApp(19, 200, "./vis/bunny/optimized_particle.xyz");
 
 	//testPointNormal();
 

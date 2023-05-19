@@ -67,10 +67,20 @@ public:
 
 	void readMesh(const std::string& filename);
 
+private:
+	Eigen::Matrix4d calcUnitCubeTransformMatrix(const double& scaleFactor);
+
+public:
+	void model2UnitCube(const double& scaleFactor = 1.0);
+
+	Eigen::MatrixXd getClosestPoint(const Eigen::MatrixXd& queryPointMat);
+
 	void getClosestPoint(const Eigen::MatrixXd& queryPointMat,
 		Eigen::VectorXd& sqrD, Eigen::VectorXi& I, Eigen::MatrixXd& C);
 
 	Eigen::MatrixXd getPointNormal(const Eigen::MatrixXd& queryPointMat);
+
+	Eigen::MatrixXd getPointNormal(const Eigen::MatrixXd& queryPointMat, Eigen::MatrixXd& C);
 
 	Eigen::MatrixXd getPointPD(const Eigen::MatrixXd& queryPointMat);
 

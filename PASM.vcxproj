@@ -127,6 +127,7 @@
       <AdditionalIncludeDirectories>$(Boost_INCLUDE_DIR);E:\3rdParty\CGAL-5.5.1\include;E:\3rdParty\CGAL-5.5.1\auxiliary\gmp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
