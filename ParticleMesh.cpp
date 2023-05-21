@@ -24,14 +24,14 @@ void ParticalMesh::lbfgs_optimization(const int& maxIterations, const int& _numS
 	LBFGSParam<double> param;
 	param.epsilon = 1e-5;
 	param.max_iterations = 1;
-	param.max_linesearch = 5000;
+	//param.max_linesearch = 5000;
 
 	// Project particles to the surface and compute normal
 	Eigen::MatrixXd proj_particleMat;
-	//Eigen::MatrixXd normal;
+	Eigen::MatrixXd normal;
 
 	// Nearest points
-	//std::vector<Eigen::MatrixXd> neighPointList;
+	std::vector<Eigen::MatrixXd> neighPointList;
 
 	// Create function object
 	auto optimize_fun = [&](const Eigen::VectorXd& before_particle, Eigen::VectorXd& grad)
@@ -42,15 +42,7 @@ void ParticalMesh::lbfgs_optimization(const int& maxIterations, const int& _numS
 		for (size_t i = 0; i < numParticles; ++i)
 			before_particleMat.row(i) = Eigen::Vector3d(before_particle(i * 3), before_particle(i * 3 + 1), before_particle(i * 3 + 2));
 
-		// Nearest point search
-		KDTree kdTree(3, before_particleMat, 20);
-		std::vector<Eigen::MatrixXd> neighPointList;
-		knn_helper::getNeighborPoint(kdTree, before_particleMat, numSearch, neighPointList);
-
-		// compute normal
-		Eigen::MatrixXd normal = getPointNormal(before_particleMat);
-
-//#pragma omp parallel for collapse(2)
+		//#pragma omp parallel for collapse(2)
 		for (int i = 0; i < numParticles; ++i)
 		{
 			//const Eigen::Vector3d i_particle = Eigen::Vector3d(before_particle(i * 3), before_particle(i * 3 + 1), before_particle(i * 3 + 2));
@@ -79,8 +71,8 @@ void ParticalMesh::lbfgs_optimization(const int& maxIterations, const int& _numS
 			grad(i * 3 + 2) = i_force.z();
 		}
 		//std::cout << before_particle(0) << " " << before_particle(1) << " " << before_particle(2) << std::endl;
-		std::cout << "systemEnergy = " << systemEnergy << std::endl;
-		std::cout << "=========\n";
+		/*std::cout << "systemEnergy = " << systemEnergy << std::endl;
+		std::cout << "=========\n";*/
 		return systemEnergy;
 	};
 
@@ -92,7 +84,13 @@ void ParticalMesh::lbfgs_optimization(const int& maxIterations, const int& _numS
 	Eigen::VectorXd particle_x;
 	for (int iter = 1; iter <= maxIterations; ++iter)
 	{
-		if (iter == 1) { proj_particleMat = particleArray; /*normal = m_VN;*/ }
+		if (iter == 1) { proj_particleMat = particleArray; normal = m_VN; }
+		else normal = getPointNormal(proj_particleMat);
+
+		// Nearest point search
+		neighPointList.clear(); neighPointList.resize(0);
+		KDTree kdTree(3, proj_particleMat, 10);
+		knn_helper::getNeighborPoint(kdTree, proj_particleMat, numSearch, neighPointList);
 
 		Eigen::MatrixXd trans_proj_particleMat = proj_particleMat;
 		trans_proj_particleMat.transposeInPlace();
@@ -105,7 +103,7 @@ void ParticalMesh::lbfgs_optimization(const int& maxIterations, const int& _numS
 		printf("-- [Iter: %d/%d] System energy = %lf\n", iter, maxIterations, energy);
 
 		Eigen::MatrixXd particleMat(numParticles, 3);
-#pragma omp parallel for
+//#pragma omp parallel for
 		for (int i = 0; i < numParticles; ++i)
 			particleMat.row(i) = Eigen::Vector3d(particle_x(i * 3), particle_x(i * 3 + 1), particle_x(i * 3 + 2));
 		proj_particleMat = getClosestPoint(particleMat);

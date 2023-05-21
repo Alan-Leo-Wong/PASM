@@ -45,8 +45,12 @@ void testPointNormal()
 int main()
 {
 	ParticalMesh pm("./model/bunny.off");
-	pm.launchApp(19, 200, "./vis/bunny/optimized_particle.xyz");
-
+	pm.launchApp(12, 6, "./vis/bunny/optimized_particle.xyz");
+	/*ParticalMesh pm("./model/camel19536.off");
+	pm.launchApp(9, 6, "./vis/camel19536/optimized_particle.xyz");*/
+	/*ParticalMesh pm("./model/switchmec.obj");
+	pm.launchApp(9, 2000, "./vis/switchmec/optimized_particle.xyz");*/
+	
 	//testPointNormal();
 
 	//KDTree aabbTree(3, model.V, 10);
