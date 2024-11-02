@@ -1,4 +1,4 @@
-#include "KNNHelper.h"
+﻿#include "KNNHelper.h"
 #include "ParticleMesh.h"
 #include <omp.h>
 #include <LBFGS.h>
@@ -35,46 +35,46 @@ void ParticalMesh::lbfgs_optimization(const int& maxIterations, const int& _numS
 
 	// Create function object
 	auto optimize_fun = [&](const Eigen::VectorXd& before_particle, Eigen::VectorXd& grad)
-	{
-		double systemEnergy = .0;
-
-		Eigen::MatrixXd before_particleMat(numParticles, 3);
-		for (size_t i = 0; i < numParticles; ++i)
-			before_particleMat.row(i) = Eigen::Vector3d(before_particle(i * 3), before_particle(i * 3 + 1), before_particle(i * 3 + 2));
-
-		//#pragma omp parallel for collapse(2)
-		for (int i = 0; i < numParticles; ++i)
 		{
-			//const Eigen::Vector3d i_particle = Eigen::Vector3d(before_particle(i * 3), before_particle(i * 3 + 1), before_particle(i * 3 + 2));
-			const Eigen::Vector3d i_particle = before_particleMat.row(i);
+			double systemEnergy = .0;
 
-			// Compute gradient of i'th particle
-			Eigen::Vector3d i_force;
-			i_force.setZero();
-			for (int j = 0; j < numSearch; ++j)
+			Eigen::MatrixXd before_particleMat(numParticles, 3);
+			for (size_t i = 0; i < numParticles; ++i)
+				before_particleMat.row(i) = Eigen::Vector3d(before_particle(i * 3), before_particle(i * 3 + 1), before_particle(i * 3 + 2));
+
+			//#pragma omp parallel for collapse(2)
+			for (int i = 0; i < numParticles; ++i)
 			{
-				const Eigen::Vector3d j_neiParticle = neighPointList[i].row(j);
+				//const Eigen::Vector3d i_particle = Eigen::Vector3d(before_particle(i * 3), before_particle(i * 3 + 1), before_particle(i * 3 + 2));
+				const Eigen::Vector3d i_particle = before_particleMat.row(i);
 
-				const double& ij_energy = std::exp(-((i_particle - j_neiParticle).squaredNorm()) / (4 * theta * theta));
-				systemEnergy += ij_energy;
-				i_force += ((i_particle - j_neiParticle) / (2 * theta * theta)) * ij_energy;
+				// Compute gradient of i'th particle
+				Eigen::Vector3d i_force;
+				i_force.setZero();
+				for (int j = 0; j < numSearch; ++j)
+				{
+					const Eigen::Vector3d j_neiParticle = neighPointList[i].row(j);
+
+					const double& ij_energy = std::exp(-((i_particle - j_neiParticle).squaredNorm()) / (4 * theta * theta));
+					systemEnergy += ij_energy;
+					i_force += ((i_particle - j_neiParticle) / (2 * theta * theta)) * ij_energy;
+				}
+
+				// Project 'i_force' to the surface tangent
+				const Eigen::Vector3d i_normal = normal.row(i);
+				i_force = i_force - (i_force.dot(i_normal)) * i_normal;
+				//i_force.normalize();
+
+				// Update gradient
+				grad(i * 3) = i_force.x();
+				grad(i * 3 + 1) = i_force.y();
+				grad(i * 3 + 2) = i_force.z();
 			}
-
-			// Project 'i_force' to the surface tangent
-			const Eigen::Vector3d i_normal = normal.row(i);
-			i_force = i_force - (i_force.dot(i_normal)) * i_normal;
-			//i_force.normalize();
-
-			// Update gradient
-			grad(i * 3) = i_force.x();
-			grad(i * 3 + 1) = i_force.y();
-			grad(i * 3 + 2) = i_force.z();
-		}
-		//std::cout << before_particle(0) << " " << before_particle(1) << " " << before_particle(2) << std::endl;
-		/*std::cout << "systemEnergy = " << systemEnergy << std::endl;
-		std::cout << "=========\n";*/
-		return systemEnergy;
-	};
+			//std::cout << before_particle(0) << " " << before_particle(1) << " " << before_particle(2) << std::endl;
+			/*std::cout << "systemEnergy = " << systemEnergy << std::endl;
+			std::cout << "=========\n";*/
+			return systemEnergy;
+		};
 
 	// Create solver
 	LBFGSSolver<double, LineSearchBracketing> solver(param);
@@ -103,7 +103,7 @@ void ParticalMesh::lbfgs_optimization(const int& maxIterations, const int& _numS
 		printf("-- [Iter: %d/%d] System energy = %lf\n", iter, maxIterations, energy);
 
 		Eigen::MatrixXd particleMat(numParticles, 3);
-//#pragma omp parallel for
+#pragma omp parallel for
 		for (int i = 0; i < numParticles; ++i)
 			particleMat.row(i) = Eigen::Vector3d(particle_x(i * 3), particle_x(i * 3 + 1), particle_x(i * 3 + 2));
 		proj_particleMat = getClosestPoint(particleMat);

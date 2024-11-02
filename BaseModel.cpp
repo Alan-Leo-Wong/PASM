@@ -1,4 +1,4 @@
-#include "BaseModel.h"
+ï»¿#include "BaseModel.h"
 //#include "FCPWHelper.h"
 #include <vector>
 #include <fstream>
@@ -21,7 +21,7 @@ BaseModel::BaseModel(const std::string& filename)
 			m_V.row((m_F.row(i))[1]),
 			m_V.row((m_F.row(i))[2])
 		));
-		// ¼ÆËãËùÓÐÈý½ÇÐÎµÄÃæ»ýºÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		totalArea += modelTris[i].area;
 	}
 	//initPQPModel();
@@ -41,7 +41,7 @@ void BaseModel::readMesh(const std::string& filename)
 	igl::read_triangle_mesh(filename, m_V, m_F);
 }
 
-// ÓÃÓÚto unit cube
+// ï¿½ï¿½ï¿½ï¿½to unit cube
 Eigen::Matrix4d BaseModel::calcUnitCubeTransformMatrix(const double& scaleFactor)
 {
 	Eigen::RowVector3d boxMin = m_V.colwise().minCoeff();
@@ -143,7 +143,7 @@ Eigen::MatrixXd BaseModel::getPointPD(const Eigen::MatrixXd& queryPointMat)
 	const size_t numPoint = queryPointMat.rows();
 
 	Eigen::VectorXi indices;
-	Eigen::VectorXd distances; 
+	Eigen::VectorXd distances;
 
 	Eigen::MatrixXd resPD(numPoint * 2, 3);
 	return Eigen::MatrixXd();
@@ -175,5 +175,5 @@ Eigen::MatrixXd BaseModel::getPointPD(const Eigen::MatrixXd& queryPointMat)
 //	/*std::ofstream out("./pqp_temp.xyz");
 //	out << Eigen::Vector3d(res.p1[0], res.p2[1], res.p1[2]).transpose() << std::endl;*/
 //
-//	return Eigen::Vector3d(res.p1[0], res.p2[1], res.p1[2]); // res.p1ÊÇÍ¶Ó°µã£¬res.p2ÊÇqueryPoint
+//	return Eigen::Vector3d(res.p1[0], res.p2[1], res.p1[2]); // res.p1ï¿½ï¿½Í¶Ó°ï¿½ã£¬res.p2ï¿½ï¿½queryPoint
 //}

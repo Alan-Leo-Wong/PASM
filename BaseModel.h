@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Eigen/Dense>
 //#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 //#include <CGAL/Surface_mesh.h>
@@ -53,8 +53,8 @@ public:
 
 	double totalArea = 0.0;
 
-	Eigen::MatrixXd PD1, PD2; // PD1´æ´¢×î´óÖ÷ÇúÂÊ·½Ïò£¬PD2´æ´¢×îÐ¡Ö÷ÇúÂÊ·½Ïò
-	Eigen::VectorXd PV1, PV2; // PV1´æ´¢×î´óÖ÷ÇúÂÊ£¬PV2´æ´¢×îÐ¡Ö÷ÇúÂÊ
+	Eigen::MatrixXd PD1, PD2; // PD1ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½ï¿½PD2ï¿½æ´¢ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½ï¿½
+	Eigen::VectorXd PV1, PV2; // PV1ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½PV2ï¿½æ´¢ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	//PQP_Model* pqpModel;
 
